@@ -1,0 +1,92 @@
+/*
+ * Copyright (c) 2017. Herman Cheung
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+
+def pomConfig = {
+    licenses {
+        license {
+            name "The Apache Software License, Version 2.0"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id "hkhc"
+            name "Herman Cheung"
+            email "herman.kh.cheung@gmail.com"
+        }
+    }
+
+    scm {
+        url project.findProperty("vcsUrl")
+    }
+}
+
+publishing {
+    publications {
+        Bintray(MavenPublication) {
+            from components.java
+            artifact sourcesJar {
+                classifier "sources"
+            }
+            artifact javadocJar {
+                classifier "javadoc"
+            }
+            groupId project.findProperty('group')
+            artifactId project.findProperty('artifactId')
+            version project.findProperty('version')
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('description', project.findProperty('description'))
+                root.appendNode('name', project.findProperty('artifactId'))
+                root.appendNode('url', project.findProperty('vcsUrl'))
+                root.children().last() + pomConfig
+            }
+        }
+    }
+}
+
+//pubext = project.extensions.findByType(PublishingExtension)
+//println "pubext " + pubext
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    publications = ['Bintray']
+    override = true
+    dryRun = false
+    pkg {
+        repo = 'maven'
+        name = project.findProperty('artifactId')
+        desc = project.findProperty('description')
+        licenses = ['Apache-2.0']
+        websiteUrl = project.findProperty('vcsUrl')
+        vcsUrl = project.findProperty('vcsUrl')
+        issueTrackerUrl = project.findProperty('issuesUrl')
+        githubRepo = project.findProperty('githubRepo')
+        githubReleaseNotesFile = project.findProperty('releaseNote')
+        version {
+            name = project.findProperty('version')
+            desc = project.findProperty('description')
+            released  = new Date()
+            vcsTag = project.findProperty("version")
+        }
+    }
+
+}
+
