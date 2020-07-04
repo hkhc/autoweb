@@ -1,0 +1,19 @@
+group: io.hkhc.autoweb
+artifactId: autoweb
+version: 1.1
+description: Page object pattern to scrap web pages
+packaging: jar
+
+licenses:
+  - name: Apache-2.0
+    dist: repo
+
+developers:
+  - id: hkhc
+    name: Herman Cheung
+    email: herman.kh.cheung@gmail.com
+
+scm:
+  repoType: github.com
+  repoName: hkhc/autoweb
+

@@ -1,10 +1,7 @@
 plugins {
     id "java-library"
-    id "maven-publish"
+    id "io.hkhc.simplepublisher" version "0.4.1"
 }
-
-apply plugin: 'com.jfrog.bintray'
-apply from: 'bintray.gradle'
 
 repositories {
     mavenCentral()
