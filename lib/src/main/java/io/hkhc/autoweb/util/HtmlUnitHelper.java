@@ -6,6 +6,7 @@ package io.hkhc.autoweb.util;
 
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -45,7 +46,7 @@ public class HtmlUnitHelper {
 
 		try {
 			WebRequest wrs = new WebRequest(url);
-			wrs.setCharset("UTF-8");
+			wrs.setCharset(Charset.forName("UTF-8"));
 		    HtmlPage p = (HtmlPage)client.getPage(wrs);
 		    return p;
 		} 
@@ -61,7 +62,7 @@ public class HtmlUnitHelper {
 
 		try {
 			WebRequest wrs = new WebRequest(url);
-			wrs.setCharset("UTF-8");
+			wrs.setCharset(Charset.forName("UTF-8"));
 //			wrs.setCookiePolicy(cookiePolicy);
 		    HtmlPage p = (HtmlPage)client.getPage(wrs);
 		    return p;
@@ -141,7 +142,7 @@ public class HtmlUnitHelper {
 	public List<? extends HtmlElement> getNodesWithKey(String xPath, DomNode node) throws EmptyNodeSetException {
 
 		@SuppressWarnings("unchecked")
-		List<? extends HtmlElement> l = (List<? extends HtmlElement>)node.getByXPath(xPath);
+		List<? extends HtmlElement> l = node.getByXPath(xPath);
 		if (l==null)
 			throw new EmptyNodeSetException("Empty Node-Set: "+xPath);		
 		return l;
@@ -151,7 +152,7 @@ public class HtmlUnitHelper {
 	public List<? extends HtmlElement> getNodes(String xPath, Page page) throws EmptyNodeSetException {
 
 		@SuppressWarnings("unchecked")
-		List<? extends HtmlElement> l = (List<? extends HtmlElement>)((HtmlPage)page).getDocumentElement().getByXPath(xPath);
+		List<? extends HtmlElement> l = ((HtmlPage)page).getDocumentElement().getByXPath(xPath);
 		
 		if (l==null)
 			throw new EmptyNodeSetException("Empty Node-Set: "+xPath);		
@@ -162,7 +163,7 @@ public class HtmlUnitHelper {
 	public List<? extends HtmlElement> getNodes(String xPath, DomNode node) throws EmptyNodeSetException {
 
 		@SuppressWarnings("unchecked")
-		List<? extends HtmlElement> l = (List<? extends HtmlElement>)node.getByXPath(xPath);
+		List<? extends HtmlElement> l = node.getByXPath(xPath);
 		
 		if (l==null)
 			throw new EmptyNodeSetException("Empty Node-Set: "+xPath);		

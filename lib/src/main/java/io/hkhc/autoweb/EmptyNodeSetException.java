@@ -17,7 +17,7 @@ public class EmptyNodeSetException extends PageRuntimeException {
 	private static final long serialVersionUID = -2210381667904696226L;
 
 	/**
-	 * @param msg
+	 * @param msg error message
 	 */
 	public EmptyNodeSetException(String msg) {
 		super(msg);
@@ -25,8 +25,8 @@ public class EmptyNodeSetException extends PageRuntimeException {
 	}
 
 	/**
-	 * @param msg
-	 * @param t
+	 * @param msg error message
+	 * @param t throwable
 	 */
 	public EmptyNodeSetException(String msg, Throwable t) {
 		super(msg, t);

@@ -24,22 +24,22 @@ public class PageRuntimeException extends RuntimeException {
 	}
 
 	/**
-	 * @param message
+	 * @param message error message
 	 */
 	public PageRuntimeException(String message) {
 		super(message);
 	}
 
 	/**
-	 * @param cause
+	 * @param cause throwable of cause
 	 */
 	public PageRuntimeException(Throwable cause) {
 		super(cause);
 	}
 
 	/**
-	 * @param message
-	 * @param cause
+	 * @param message error essage
+	 * @param cause throwable of cause
 	 */
 	public PageRuntimeException(String message, Throwable cause) {
 		super(message, cause);

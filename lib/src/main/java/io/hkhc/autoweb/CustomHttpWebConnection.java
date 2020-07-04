@@ -15,7 +15,7 @@ public class CustomHttpWebConnection extends HttpWebConnection {
 	}
 
 	@Override
-	protected HttpClientBuilder createHttpClient() {
+	protected HttpClientBuilder createHttpClientBuilder() {
 		return hcb;
 	}
 

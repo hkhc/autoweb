@@ -8,5 +8,6 @@
 /.idea/copyright
 .DS_Store
 /build
+/out
 /captures
 .externalNativeBuild

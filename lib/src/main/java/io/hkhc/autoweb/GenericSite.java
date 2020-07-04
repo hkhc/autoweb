@@ -9,12 +9,15 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.SortedMap;
 
+import com.gargoylesoftware.css.parser.CSSErrorHandler;
+import com.gargoylesoftware.css.parser.CSSException;
+import com.gargoylesoftware.css.parser.CSSParseException;
+import com.gargoylesoftware.htmlunit.*;
+import com.gargoylesoftware.htmlunit.html.parser.HTMLParserListener;
+import com.gargoylesoftware.htmlunit.javascript.JavaScriptErrorListener;
+import com.gargoylesoftware.htmlunit.javascript.SilentJavaScriptErrorListener;
 import org.apache.http.impl.client.HttpClientBuilder;
 
-import com.gargoylesoftware.htmlunit.BrowserVersion;
-import com.gargoylesoftware.htmlunit.Page;
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.WebClientOptions;
 import io.hkhc.autoweb.util.HtmlUnitHelper;
 
 public class GenericSite implements Site {
@@ -31,6 +34,19 @@ public class GenericSite implements Site {
 	protected boolean cssEnabled = true;
 	protected boolean exceptionOnJSError = false;
 	protected boolean exceptionOnStatusCode = false;
+	private CSSErrorHandler cssErrorHandler = new SilentCssErrorHandler();
+	private JavaScriptErrorListener javascriptErrorHandler = new SilentJavaScriptErrorListener();
+	private HTMLParserListener htmlParserListener = new HTMLParserListener() {
+		@Override
+		public void error(String message, URL url, String html, int line, int column, String key) {
+			// do nothing
+		}
+
+		@Override
+		public void warning(String message, URL url, String html, int line, int column, String key) {
+			// do nothing
+		}
+	};
 
 	public AutoWebPage getCurrentPage() throws IOException {
 		return getCurrentPage(null);
@@ -91,6 +107,14 @@ public class GenericSite implements Site {
 		}
 		
 	}
+
+	public void setCssErrorHandler(CSSErrorHandler handler) {
+		this.cssErrorHandler = handler;
+	}
+
+	public void setJavascriptErrorHandler(JavaScriptErrorListener handler) {
+		this.javascriptErrorHandler = handler;
+	}
 	
 	private WebClient initWebClient() {
 		WebClient webClient = new WebClient(getBrowserVersion());
@@ -102,7 +126,19 @@ public class GenericSite implements Site {
         options.setThrowExceptionOnScriptError(exceptionOnJSError);
         options.setThrowExceptionOnFailingStatusCode(exceptionOnStatusCode);
         options.setCssEnabled(cssEnabled);
-        
+
+        if (cssErrorHandler!=null) {
+			webClient.setCssErrorHandler(cssErrorHandler);
+		}
+
+        if (javascriptErrorHandler!=null) {
+        	webClient.setJavaScriptErrorListener(javascriptErrorHandler);
+		}
+
+        if (htmlParserListener!=null) {
+        	webClient.setHTMLParserListener(htmlParserListener);
+		}
+
         if (httpClientBuilder!=null) {
         	webClient.setWebConnection(new CustomHttpWebConnection(webClient, httpClientBuilder));
         }
