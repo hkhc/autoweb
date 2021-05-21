@@ -1,6 +1,6 @@
 group: io.hkhc.autoweb
 artifactId: autoweb
-version: 1.1
+version: 1.2
 description: Page object pattern to scrap web pages
 packaging: jar
 

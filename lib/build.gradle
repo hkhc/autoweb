@@ -1,37 +1,28 @@
 plugins {
     id "java-library"
-    id "io.hkhc.simplepublisher" version "0.4.1"
+    id "io.hkhc.jarbird"
 }
 
 repositories {
     mavenCentral()
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.java.srcDirs
-}
-
-javadoc.failOnError = false
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives sourcesJar, javadocJar
-}
-
-
 sourceCompatibility = 1.8
 
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
-    compile (group:'net.sourceforge.htmlunit', name: 'htmlunit', version:'2.41.0') {
-        exclude group:'org.eclipse.jetty'
+jarbird {
+    pub {
+        mavenLocal()
+        mavenCentral()
     }
-    compile (group:'org.springframework', name:'spring-core', version:'3.1.4.RELEASE')
-    compile (group:'org.springframework', name:'spring-beans', version:'3.1.4.RELEASE')
-    compile (group:'org.springframework', name:'spring-context', version:'3.1.4.RELEASE')
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '_'
+    compile(group: 'net.sourceforge.htmlunit', name: 'htmlunit', version: '_') {
+        exclude group: 'org.eclipse.jetty'
+    }
+    compile(group: 'org.springframework', name: 'spring-core', version: '_')
+    compile(group: 'org.springframework', name: 'spring-beans', version: '_')
+    compile(group: 'org.springframework', name: 'spring-context', version: '_')
 
 }
